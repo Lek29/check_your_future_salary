@@ -26,46 +26,56 @@ date_from = '2024-12-01'
 #             'currency': salary.get('currency', None),
 #             'gross': salary.get('gross', None)
 #         })
-def predict_rub_salary(vacancy):
-    params_all= {
-    'text': f'{vacancy}',
-    'area': 1,
-    'per_page': 20,
-    'page':0,
-}
-    salary_print = []
-    vacancy_all = requests.get(base_url, params=params_all)
-    vacancy_all.raise_for_status()
-    vacancy_json = vacancy_all.json()
+def predict_rub_salary(salary):
+    if salary and salary.get('currency') == 'RUR':
+       if salary and salary.get('currency') == 'RUR':
+        salary_from = salary.get('from')
+        salary_to = salary.get('to')
 
-    for vacancy in vacancy_json['items']:
-        salary = vacancy.get('salary')
-        if salary and salary.get('currency') == 'RUR':
-            salary_from = salary.get('from')
-            salary_to = salary.get('to')    
-            if salary_from and salary_to:
-                average_salary = (salary_from + salary_to ) / 2
-                salary_print.append(average_salary)
-            elif salary_from:
-                salary = salary.get('from') * 1.2
-                salary_print.append(salary)
-            elif  salary_to:
-                    salary = salary.get('to') * 0.8
-                    salary_print.append(salary)
-            else:
-                 salary_print.append(None)
-        else:
-             salary_print.append(None)
-    
-    return salary_print, vacancy_json['found']
+        if salary_from and salary_to:
+            return (salary_from + salary_to) / 2
+        elif salary_from:
+            return salary_from * 1.2
+        elif salary_to:
+            return salary_to * 0.8
+    return None
 
-     
+def get_all_vacancies(language):
+    all_salaries = []
+    page = 0
+    per_page = 100
+    total_pages = 1
+
+    while page < total_pages:
+        params = {
+            'text': f'Программист {language}',
+            'area': 1,
+            'per_page': per_page,
+            'page': page,
+        }
+
+        response = requests.get(base_url, params=params)
+        response.raise_for_status()
+        salaries_in_one_language = response.json()
+
+        total_pages = salaries_in_one_language['pages']
+        print(f"Загружаем вакансии для {language}, страница {page + 1} из {total_pages}")
+
+        for vacancy in salaries_in_one_language['items']:
+            salary = vacancy.get('salary')
+            salary_prediction = predict_rub_salary(salary)
+            if salary_prediction:
+                all_salaries.append(salary_prediction)
+
+        page += 1
+    return all_salaries, salaries_in_one_language['found']
+
 
 def salary_in_languages(languages):
     statistic = {}
 
     for language in languages:
-        salaries, vacancies_found = predict_rub_salary(f'Программист {language}')
+        salaries, vacancies_found = get_all_vacancies(language)
         filtred_salaries = [salary for salary in salaries if salary is not None]
         vacancies_processed = len(filtred_salaries)
 
