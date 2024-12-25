@@ -13,8 +13,8 @@ headers = {
 }
 
 params = {
-    'keywords': 'программист ',
-    'town': 'Ипкутск',
+    'catalogues': 48,
+    'town': 4,
     'count': 10,
 }
 
@@ -23,7 +23,7 @@ response.raise_for_status()
 vacancies = response.json()
 if'objects' in vacancies:
     for vacancy in vacancies['objects']:
-        pprint(vacancy.get('profession',  'Без названия'))
+        pprint(f'{vacancy["profession"]}, {vacancy["town"]["title"]}')
 else:
     print('Нет objects в vacancies')
     pprint(vacancies)
