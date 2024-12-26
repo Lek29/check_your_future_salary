@@ -3,6 +3,7 @@ import os
 import requests
 import math
 from utils import predict_salary
+from terminaltables import AsciiTable
 
 from pprint import pprint
 
@@ -87,5 +88,27 @@ def salary_in_languages_sj(languages):
 
     return statistic   
 
+def print_statistics_table(statistics, title):
+    
+    table_data = [
+        ['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']
+    ]
+
+    for language, stats in statistics.items():
+        table_data.append([
+            language,
+            stats['vacancies_found'],
+            stats['vacancies_processed'],
+            stats['average_salary']
+        ])
+
+    
+    table = AsciiTable(table_data)
+    table.title = 'Вакансии SuperJob'
+
+    
+    print(table.table)
+
 languages = ['Python', 'Java', 'JavaScript', 'Ruby', 'PHP', 'C++', 'C#', 'Go', 'Swift', 'TypeScript']
-pprint(salary_in_languages_sj(languages))
+statistic_sj = salary_in_languages_sj(languages)
+print_statistics_table(statistic_sj, 'SuperJob Moscow')
