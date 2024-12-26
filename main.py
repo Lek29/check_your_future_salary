@@ -1,7 +1,7 @@
 import requests
 from pprint import pprint
 from utils import predict_salary
-from utils import get_all_vacancies_hh
+
 
 
 base_url_hh = 'https://api.hh.ru/vacancies'
