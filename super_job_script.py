@@ -57,7 +57,7 @@ def get_all_vacancies_sj(language):
         salaries_in_one_language = response.json()
 
         total_pages = math.ceil(salaries_in_one_language['total'] / per_page)
-        print(f"Загружаем вакансии для {language}, страница {page + 1} из {total_pages}")
+        # print(f"Загружаем вакансии для {language}, страница {page + 1} из {total_pages}")
 
         for vacancy in salaries_in_one_language['objects']:
             salary_prediction = predict_rub_salary_for_superJob(vacancy)
@@ -106,9 +106,8 @@ def print_statistics_table(statistics, title):
     table = AsciiTable(table_data)
     table.title = 'Вакансии SuperJob'
 
-    
     print(table.table)
 
-languages = ['Python', 'Java', 'JavaScript', 'Ruby', 'PHP', 'C++', 'C#', 'Go', 'Swift', 'TypeScript']
-statistic_sj = salary_in_languages_sj(languages)
-print_statistics_table(statistic_sj, 'SuperJob Moscow')
+# languages = ['Python', 'Java', 'JavaScript', 'Ruby', 'PHP', 'C++', 'C#', 'Go', 'Swift', 'TypeScript']
+# statistic_sj = salary_in_languages_sj(languages)
+# print_statistics_table(statistic_sj, 'SuperJob Moscow')

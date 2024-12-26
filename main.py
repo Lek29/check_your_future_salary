@@ -6,6 +6,7 @@ from super_job_script import salary_in_languages_sj, print_statistics_table
 
 base_url_hh = 'https://api.hh.ru/vacancies'
 
+
 def predict_salary(salary_from, salary_to):
     if salary_from and salary_to:
         return (salary_from + salary_to) / 2
@@ -27,10 +28,12 @@ def predict_rub_salary_hh(salary):
     
     return None
 
+
 def predict_rub_salary_sj(vacancy):
     if vacancy.get('currency') == 'RUR':
         return predict_salary(vacancy.get('payment_from'), vacancy.get('payment_to'))
     
+
 
 def salary_in_languages_hh(languages):
     statistic = {}
@@ -93,9 +96,6 @@ def get_all_vacancies_hh(language):
         response.raise_for_status()
         salaries_in_one_language = response.json()
 
-        total_pages = salaries_in_one_language['pages']
-        # print(f"Загружаем вакансии для {language}, страница {page + 1} из {total_pages}")
-
         for vacancy in salaries_in_one_language['items']:
             salary = vacancy.get('salary')
             salary_prediction = predict_rub_salary_hh(salary)
@@ -104,6 +104,7 @@ def get_all_vacancies_hh(language):
 
         page += 1
     return all_salaries, salaries_in_one_language['found']
+
 
 def main():
     languages = ['Python', 'Java', 'JavaScript', 'Ruby', 'PHP', 'C++', 'C#', 'Go', 'Swift', 'TypeScript']
