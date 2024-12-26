@@ -4,7 +4,6 @@ import requests
 import math
 from utils import predict_salary
 from terminaltables import AsciiTable
-
 from pprint import pprint
 
 load_dotenv()
@@ -28,12 +27,28 @@ vacancies = response.json()
 
 
 def predict_rub_salary_for_superJob(vacancy):
+    """Вычисляет зарплату в рублях для вакансии с SuperJob.
+
+    Args:
+        vacancy (dict): Данные о вакансии из API SuperJob.
+
+    Returns:
+        float or None: Зарплата в рублях или None, если данные отсутствуют или валюта не rub.
+    """
     if vacancy['currency'] == 'rub':
         return predict_salary(vacancy.get('payment_from'), vacancy.get('payment_to'))
     return None
         
 
 def get_all_vacancies_sj(language):
+    """Получает все вакансии для указанного языка программирования с SuperJob.
+
+    Args:
+        language (str): Язык программирования.
+
+    Returns:
+        tuple: (Список зарплат, общее количество найденных вакансий).
+    """
     all_salaries = []
     page = 0
     per_page = 100
@@ -66,8 +81,24 @@ def get_all_vacancies_sj(language):
 
         page += 1
     return all_salaries, salaries_in_one_language['total']
-    
+
+
 def salary_in_languages_sj(languages):
+    """Собирает статистику по зарплатам для языков программирования с SuperJob.
+
+    Args:
+        languages (list): Список языков программирования.
+
+    Returns:
+        dict: Статистика по каждому языку в формате:
+            {
+                'language': {
+                    'vacancies_found': int,
+                    'vacancies_processed': int,
+                    'average_salary': int
+                }
+            }
+    """
     statistic = {}
 
     for language in languages:
@@ -88,8 +119,20 @@ def salary_in_languages_sj(languages):
 
     return statistic   
 
-def print_statistics_table(statistics, title):
-    
+
+def print_statistics_table(statistics):
+    """Выводит таблицу со статистикой по вакансиям с SuperJob.
+
+    Args:
+        statistics (dict): Статистика по вакансиям в формате:
+            {
+                'language': {
+                    'vacancies_found': int,
+                    'vacancies_processed': int,
+                    'average_salary': int
+                }
+            }
+    """
     table_data = [
         ['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']
     ]
@@ -108,6 +151,4 @@ def print_statistics_table(statistics, title):
 
     print(table.table)
 
-# languages = ['Python', 'Java', 'JavaScript', 'Ruby', 'PHP', 'C++', 'C#', 'Go', 'Swift', 'TypeScript']
-# statistic_sj = salary_in_languages_sj(languages)
-# print_statistics_table(statistic_sj, 'SuperJob Moscow')
+

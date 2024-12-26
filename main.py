@@ -8,6 +8,15 @@ base_url_hh = 'https://api.hh.ru/vacancies'
 
 
 def predict_salary(salary_from, salary_to):
+    """Вычисляет среднюю зарплату на основе нижней и верхней границ.
+
+    Args:
+        salary_from (int or None): Нижняя граница зарплаты.
+        salary_to (int or None): Верхняя граница зарплаты.
+
+    Returns:
+        float or None: Средняя зарплата или None, если данные отсутствуют.
+    """
     if salary_from and salary_to:
         return (salary_from + salary_to) / 2
     elif salary_from:
@@ -19,6 +28,14 @@ def predict_salary(salary_from, salary_to):
     
 
 def predict_rub_salary_hh(salary):
+    """Вычисляет зарплату в рублях для вакансии с HeadHunter.
+
+    Args:
+        salary (dict or None): Данные о зарплате из API HeadHunter.
+
+    Returns:
+        float or None: Зарплата в рублях или None, если данные отсутствуют или валюта не RUR.
+    """
     if not salary:
         return None
     
@@ -30,12 +47,35 @@ def predict_rub_salary_hh(salary):
 
 
 def predict_rub_salary_sj(vacancy):
+    """Вычисляет зарплату в рублях для вакансии с SuperJob.
+
+    Args:
+        vacancy (dict): Данные о вакансии из API SuperJob.
+
+    Returns:
+        float or None: Зарплата в рублях или None, если данные отсутствуют или валюта не RUR.
+    """
     if vacancy.get('currency') == 'RUR':
         return predict_salary(vacancy.get('payment_from'), vacancy.get('payment_to'))
     
 
 
 def salary_in_languages_hh(languages):
+    """Собирает статистику по зарплатам для языков программирования с HeadHunter.
+
+    Args:
+        languages (list): Список языков программирования.
+
+    Returns:
+        dict: Статистика по каждому языку в формате:
+            {
+                'language': {
+                    'vacancies_found': int,
+                    'vacancies_processed': int,
+                    'average_salary': int
+                }
+            }
+    """
     statistic = {}
 
     for language in languages:
@@ -58,6 +98,18 @@ def salary_in_languages_hh(languages):
 
 
 def print_statistic_table_hh(statistic):
+    """Выводит таблицу со статистикой по вакансиям с HeadHunter.
+
+    Args:
+        statistic (dict): Статистика по вакансиям в формате:
+            {
+                'language': {
+                    'vacancies_found': int,
+                    'vacancies_processed': int,
+                    'average_salary': int
+                }
+            }
+    """
     table_data = [
         ['Язык программирования', 
          'Вакансий найдено',
@@ -79,6 +131,14 @@ def print_statistic_table_hh(statistic):
 
  
 def get_all_vacancies_hh(language):
+    """Получает все вакансии для указанного языка программирования с HeadHunter.
+
+    Args:
+        language (str): Язык программирования.
+
+    Returns:
+        tuple: (Список зарплат, общее количество найденных вакансий).
+    """
     all_salaries = []
     page = 0
     per_page = 100
