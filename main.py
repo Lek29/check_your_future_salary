@@ -60,7 +60,7 @@ def predict_rub_salary_sj(vacancy):
     
 
 
-def salary_in_languages_hh(languages):
+def calculate_salary_in_languages_hh(languages):
     """Собирает статистику по зарплатам для языков программирования с HeadHunter.
 
     Args:
@@ -168,7 +168,7 @@ def get_all_vacancies_hh(language):
 
 def main():
     languages = ['Python', 'Java', 'JavaScript', 'Ruby', 'PHP', 'C++', 'C#', 'Go', 'Swift', 'TypeScript']
-    statistic_hh = salary_in_languages_hh(languages)
+    statistic_hh = calculate_salary_in_languages_hh(languages)
     print_statistic_table_hh(statistic_hh)
 
     statistic_sj = salary_in_languages_sj(languages)
