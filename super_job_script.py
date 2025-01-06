@@ -3,6 +3,7 @@ import os
 import requests
 import math
 from utils import predict_salary
+from utils import print_statistics_table
 from terminaltables import AsciiTable
 from pprint import pprint
 
@@ -124,35 +125,35 @@ def calculate_salary_in_languages_sj(languages):
     return statistic   
 
 
-def print_statistics_table(statistics):
-    """Выводит таблицу со статистикой по вакансиям с SuperJob.
+# def print_statistics_table(statistics):
+#     """Выводит таблицу со статистикой по вакансиям с SuperJob.
 
-    Args:
-        statistics (dict): Статистика по вакансиям в формате:
-            {
-                'language': {
-                    'vacancies_found': int,
-                    'vacancies_processed': int,
-                    'average_salary': int
-                }
-            }
-    """
-    table_data = [
-        ['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']
-    ]
+#     Args:
+#         statistics (dict): Статистика по вакансиям в формате:
+#             {
+#                 'language': {
+#                     'vacancies_found': int,
+#                     'vacancies_processed': int,
+#                     'average_salary': int
+#                 }
+#             }
+#     """
+#     table_data = [
+#         ['Язык программирования', 'Вакансий найдено', 'Вакансий обработано', 'Средняя зарплата']
+#     ]
 
-    for language, stats in statistics.items():
-        table_data.append([
-            language,
-            stats['vacancies_found'],
-            stats['vacancies_processed'],
-            stats['average_salary']
-        ])
+#     for language, stats in statistics.items():
+#         table_data.append([
+#             language,
+#             stats['vacancies_found'],
+#             stats['vacancies_processed'],
+#             stats['average_salary']
+#         ])
 
     
-    table = AsciiTable(table_data)
-    table.title = 'Вакансии SuperJob'
+#     table = AsciiTable(table_data)
+#     table.title = 'Вакансии SuperJob'
 
-    print(table.table)
+#     print(table.table)
 
 

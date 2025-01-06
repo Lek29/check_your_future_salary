@@ -1,7 +1,7 @@
 import requests
 from pprint import pprint
-from terminaltables import AsciiTable
-from super_job_script import calculate_salary_in_languages_sj, print_statistics_table 
+from utils import print_statistics_table
+from super_job_script import calculate_salary_in_languages_sj
 
 
 BASE_URL_HH = 'https://api.hh.ru/vacancies'
@@ -98,37 +98,37 @@ def calculate_salary_in_languages_hh(languages):
     return statistic
 
 
-def print_statistic_table_hh(statistic):
-    """Выводит таблицу со статистикой по вакансиям с HeadHunter.
+# def print_statistic_table_hh(statistic):
+#     """Выводит таблицу со статистикой по вакансиям с HeadHunter.
 
-    Args:
-        statistic (dict): Статистика по вакансиям в формате:
-            {
-                'language': {
-                    'vacancies_found': int,
-                    'vacancies_processed': int,
-                    'average_salary': int
-                }
-            }
-    """
-    table_data = [
-        ['Язык программирования', 
-         'Вакансий найдено',
-         'Вакансий обработано', 
-         'Средняя зарплата'],
-    ]
-    for language, stats in statistic.items():
-        table_data.append([
-            language,
-            stats['vacancies_found'],
-            stats['vacancies_processed'],
-            stats['average_salary'],
-        ])
+#     Args:
+#         statistic (dict): Статистика по вакансиям в формате:
+#             {
+#                 'language': {
+#                     'vacancies_found': int,
+#                     'vacancies_processed': int,
+#                     'average_salary': int
+#                 }
+#             }
+#     """
+#     table_data = [
+#         ['Язык программирования', 
+#          'Вакансий найдено',
+#          'Вакансий обработано', 
+#          'Средняя зарплата'],
+#     ]
+#     for language, stats in statistic.items():
+#         table_data.append([
+#             language,
+#             stats['vacancies_found'],
+#             stats['vacancies_processed'],
+#             stats['average_salary'],
+#         ])
     
-    table = AsciiTable(table_data)
-    table.title = 'Вакансии HH'
+#     table = AsciiTable(table_data)
+#     table.title = 'Вакансии HH'
 
-    print(table.table)
+#     print(table.table)
 
  
 def get_all_vacancies_hh(language):
@@ -175,10 +175,10 @@ def get_all_vacancies_hh(language):
 def main():
     languages = ['Python', 'Java', 'JavaScript', 'Ruby', 'PHP', 'C++', 'C#', 'Go', 'Swift', 'TypeScript']
     statistic_hh = calculate_salary_in_languages_hh(languages)
-    print_statistic_table_hh(statistic_hh)
+    print_statistics_table(statistic_hh, 'Вакансии HH')
 
     statistic_sj = calculate_salary_in_languages_sj(languages)
-    print_statistics_table(statistic_sj)
+    print_statistics_table(statistic_sj, 'Вакансии SuperJob')
 
 
 if __name__ == '__main__':
