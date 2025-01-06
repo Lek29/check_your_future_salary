@@ -83,7 +83,7 @@ def get_all_vacancies_sj(language):
     return all_salaries, salaries_in_one_language['total']
 
 
-def salary_in_languages_sj(languages):
+def calculate_salary_in_languages_sj(languages):
     """Собирает статистику по зарплатам для языков программирования с SuperJob.
 
     Args:

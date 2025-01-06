@@ -1,7 +1,7 @@
 import requests
 from pprint import pprint
 from terminaltables import AsciiTable
-from super_job_script import salary_in_languages_sj, print_statistics_table 
+from super_job_script import calculate_salary_in_languages_sj, print_statistics_table 
 
 
 BASE_URL_HH = 'https://api.hh.ru/vacancies'
@@ -171,7 +171,7 @@ def main():
     statistic_hh = calculate_salary_in_languages_hh(languages)
     print_statistic_table_hh(statistic_hh)
 
-    statistic_sj = salary_in_languages_sj(languages)
+    statistic_sj = calculate_salary_in_languages_sj(languages)
     print_statistics_table(statistic_sj)
 
 
