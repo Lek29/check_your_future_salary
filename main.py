@@ -4,7 +4,7 @@ from terminaltables import AsciiTable
 from super_job_script import salary_in_languages_sj, print_statistics_table 
 
 
-base_url_hh = 'https://api.hh.ru/vacancies'
+BASE_URL_HH = 'https://api.hh.ru/vacancies'
 
 
 def predict_salary(salary_from, salary_to):
@@ -152,7 +152,7 @@ def get_all_vacancies_hh(language):
             'page': page,
         }
 
-        response = requests.get(base_url_hh, params=params)
+        response = requests.get(BASE_URL_HH, params=params)
         response.raise_for_status()
         salaries_in_one_language = response.json()
 
