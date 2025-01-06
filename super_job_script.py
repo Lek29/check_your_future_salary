@@ -10,6 +10,8 @@ load_dotenv()
 
 SUPER_JOB_KEY = os.getenv('SUPER_JOB_KEY')
 SUPER_JOB_URL = 'https://api.superjob.ru/2.0/vacancies/'
+IT_CATALOGUE_ID = 48  
+MOSCOW_TOWN_ID = 4
 
 headers = {
     'X-Api-App-Id': f'{SUPER_JOB_KEY}'
@@ -57,8 +59,8 @@ def get_all_vacancies_sj(language):
     while page < total_pages:
         params = {
             'keyword': f'Программист {language}',
-            'catalogues': 48,  
-            'town': 4,  
+            'catalogues': IT_CATALOGUE_ID,  
+            'town': MOSCOW_TOWN_ID,  
             'count': per_page,
             'page': page,
         }
