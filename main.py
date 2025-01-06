@@ -6,6 +6,7 @@ from super_job_script import calculate_salary_in_languages_sj, print_statistics_
 
 BASE_URL_HH = 'https://api.hh.ru/vacancies'
 MOSCOW_REGION_ID = 1
+VACANCIES_PER_PAGE = 100 
 
 
 def predict_salary(salary_from, salary_to):
@@ -142,10 +143,10 @@ def get_all_vacancies_hh(language):
     """
     all_salaries = []
     page = 0
-    per_page = 100
-    total_pages = 1
+    per_page = VACANCIES_PER_PAGE
+    
 
-    while page < total_pages:
+    while True:
         params = {
             'text': f'Программист {language}',
             'area': MOSCOW_REGION_ID,
@@ -157,6 +158,8 @@ def get_all_vacancies_hh(language):
         response.raise_for_status()
         salaries_in_one_language = response.json()
 
+        total_pages = salaries_in_one_language['pages']
+
         for vacancy in salaries_in_one_language['items']:
             salary = vacancy.get('salary')
             salary_prediction = predict_rub_salary_hh(salary)
@@ -164,6 +167,9 @@ def get_all_vacancies_hh(language):
                 all_salaries.append(salary_prediction)
 
         page += 1
+        if page >= total_pages:
+            break
+        
     return all_salaries, salaries_in_one_language['found']
 
 
