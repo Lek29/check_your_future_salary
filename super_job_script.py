@@ -12,20 +12,6 @@ IT_CATALOGUE_ID = 48
 MOSCOW_TOWN_ID = 4
 VACANCIES_PER_PAGE = 100
 
-headers = {
-    'X-Api-App-Id': f'{SUPER_JOB_KEY}'
-}
-
-params = {
-    'catalogues': 48,
-    'town': 4,
-    'count': 10,
-}
-
-response = requests.get(SUPER_JOB_URL, headers=headers, params=params)
-response.raise_for_status()
-vacancies = response.json()
-
 
 def predict_rub_salary_for_superJob(vacancy):
     """Вычисляет зарплату в рублях для вакансии с SuperJob.
