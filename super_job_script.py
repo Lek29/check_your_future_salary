@@ -5,7 +5,7 @@ import math
 from utils import predict_salary
 from utils import print_statistics_table
 from terminaltables import AsciiTable
-from pprint import pprint
+
 
 load_dotenv()
 
