@@ -110,7 +110,7 @@ def calculate_salary_in_languages_sj(languages):
         salaries, vacancies_found = get_all_vacancies_sj(language)
         vacancies_processed = len(salaries)
 
-        if vacancies_processed > 0:
+        if vacancies_processed:
             average_salary = int(sum(salaries) / vacancies_processed)
         else:
             average_salary = 0
