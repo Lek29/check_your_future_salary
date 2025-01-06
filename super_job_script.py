@@ -1,4 +1,3 @@
-from dotenv import load_dotenv
 import os
 import requests
 import math
@@ -6,8 +5,6 @@ from utils import predict_salary
 from utils import print_statistics_table
 from terminaltables import AsciiTable
 
-
-load_dotenv()
 
 SUPER_JOB_KEY = os.getenv('SUPER_JOB_KEY')
 SUPER_JOB_URL = 'https://api.superjob.ru/2.0/vacancies/'

@@ -1,4 +1,5 @@
 import requests
+from dotenv import load_dotenv
 from pprint import pprint
 from utils import print_statistics_table, predict_salary
 from super_job_script import calculate_salary_in_languages_sj
@@ -7,26 +8,6 @@ from super_job_script import calculate_salary_in_languages_sj
 BASE_URL_HH = 'https://api.hh.ru/vacancies'
 MOSCOW_REGION_ID = 1
 VACANCIES_PER_PAGE = 100 
-
-
-# def predict_salary(salary_from, salary_to):
-#     """Вычисляет среднюю зарплату на основе нижней и верхней границ.
-
-#     Args:
-#         salary_from (int or None): Нижняя граница зарплаты.
-#         salary_to (int or None): Верхняя граница зарплаты.
-
-#     Returns:
-#         float or None: Средняя зарплата или None, если данные отсутствуют.
-#     """
-#     if salary_from and salary_to:
-#         return (salary_from + salary_to) / 2
-#     elif salary_from:
-#         return salary_from * 1.2
-#     elif salary_to:
-#         return salary_to * 0.8
-#     else:
-#         return None
     
 
 def predict_rub_salary_hh(salary):
@@ -140,6 +121,8 @@ def get_all_vacancies_hh(language):
 
 
 def main():
+    load_dotenv()
+    
     languages = ['Python', 'Java', 'JavaScript', 'Ruby', 'PHP', 'C++', 'C#', 'Go', 'Swift', 'TypeScript']
     statistic_hh = calculate_salary_in_languages_hh(languages)
     print_statistics_table(statistic_hh, 'Вакансии HH')
