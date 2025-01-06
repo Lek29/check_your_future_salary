@@ -82,11 +82,10 @@ def calculate_salary_in_languages_hh(languages):
 
     for language in languages:
         salaries, vacancies_found = get_all_vacancies_hh(language)
-        filtred_salaries = [salary for salary in salaries if salary is not None]
-        vacancies_processed = len(filtred_salaries)
+        vacancies_processed = len(salaries)
 
         if vacancies_processed > 0:
-            average_salary = int(sum(filtred_salaries) / vacancies_processed)
+            average_salary = int(sum(salaries) / vacancies_processed)
         else:
             average_salary = 0
 
@@ -169,7 +168,7 @@ def get_all_vacancies_hh(language):
         page += 1
         if page >= total_pages:
             break
-        
+
     return all_salaries, salaries_in_one_language['found']
 
 
