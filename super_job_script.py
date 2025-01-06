@@ -12,6 +12,7 @@ SUPER_JOB_KEY = os.getenv('SUPER_JOB_KEY')
 SUPER_JOB_URL = 'https://api.superjob.ru/2.0/vacancies/'
 IT_CATALOGUE_ID = 48  
 MOSCOW_TOWN_ID = 4
+VACANCIES_PER_PAGE = 100
 
 headers = {
     'X-Api-App-Id': f'{SUPER_JOB_KEY}'
@@ -53,15 +54,13 @@ def get_all_vacancies_sj(language):
     """
     all_salaries = []
     page = 0
-    per_page = 100
-    total_pages = 1
-
-    while page < total_pages:
+    
+    while True:
         params = {
             'keyword': f'Программист {language}',
             'catalogues': IT_CATALOGUE_ID,  
             'town': MOSCOW_TOWN_ID,  
-            'count': per_page,
+            'count': VACANCIES_PER_PAGE,
             'page': page,
         }
 
@@ -73,8 +72,8 @@ def get_all_vacancies_sj(language):
         response.raise_for_status()
         salaries_in_one_language = response.json()
 
-        total_pages = math.ceil(salaries_in_one_language['total'] / per_page)
-        # print(f"Загружаем вакансии для {language}, страница {page + 1} из {total_pages}")
+        total_pages = math.ceil(salaries_in_one_language['total'] / VACANCIES_PER_PAGE)
+        
 
         for vacancy in salaries_in_one_language['objects']:
             salary_prediction = predict_rub_salary_for_superJob(vacancy)
@@ -82,6 +81,10 @@ def get_all_vacancies_sj(language):
                 all_salaries.append(salary_prediction)
 
         page += 1
+
+        if page >= total_pages:
+            break
+
     return all_salaries, salaries_in_one_language['total']
 
 
